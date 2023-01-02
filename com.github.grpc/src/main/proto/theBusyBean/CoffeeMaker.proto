@@ -1,0 +1,36 @@
+
+syntax = "proto3";
+
+package test.logic.CoffeeMaker;
+
+option java_package = "test.logic.CoffeeMaker";
+option java_multiple_files = true;
+
+import "google/protobuf/any.proto";
+
+message HelloReq {
+  string ClientName = 1;
+  string Order = 2;
+}
+
+message HelloResp {
+  string ready = 1;
+}
+
+message CoffeeInstructionsRequest {
+  uint32 sugarLumps = 1;
+  google.protobuf.Any milk = 3;
+  repeated string ingredients= 4;
+}
+
+
+message CoffeeResults {
+  repeated string outputList = 1;
+}
+
+service CoffeeShopService {
+
+  rpc CoffeeReady(HelloReq) returns (HelloResp);
+
+  rpc MakeCoffee(CoffeeInstructionsRequest) returns (CoffeeResults);
+}
