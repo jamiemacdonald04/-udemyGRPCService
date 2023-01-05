@@ -1,6 +1,5 @@
 package brewers.delight;
 import com.google.protobuf.Any;
-import com.google.protobuf.Descriptors;
 import test.logic.CoffeeMaker.*;
 import io.grpc.stub.StreamObserver;
 
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServiceImplBase {
-    
+
     @Override
     public void cleanCoffeeMachine(CoffeeCleaningRequest request, StreamObserver<CoffeeCleaningResponse> responseObserver) {
         String name = request.getName();
@@ -65,11 +64,9 @@ public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServ
 
         //get the parameters and do with as you wish
         List<String> result = new ArrayList<>();
-        result.add(Integer.toString(sugarLumps) + "sugar lumps");
+        result.add(sugarLumps + "sugar lumps");
 
-        for (String ingredient : order) {
-            result.add(ingredient);
-        }
+        result.addAll(order);
 
         AlmondMilkOuterClass.AlmondMilk almondMilk;
         if (milk.is(AlmondMilkOuterClass.AlmondMilk.class)) {
@@ -106,8 +103,7 @@ public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServ
 
     private String cleanedDate(){
         LocalDateTime currentDate = LocalDateTime.now();
-        DateTimeFormatter dateFormater = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String formattedDate = currentDate.format(dateFormater);
-        return formattedDate;
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return currentDate.format(dateFormatter);
     }
 }
