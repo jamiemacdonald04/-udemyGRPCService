@@ -1,14 +1,41 @@
 package brewers.delight;
 import com.google.protobuf.Any;
+import com.google.protobuf.Descriptors;
 import test.logic.CoffeeMaker.*;
 import io.grpc.stub.StreamObserver;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServiceImplBase {
+    
+    @Override
+    public void cleanCoffeeMachine(CoffeeCleaningRequest request, StreamObserver<CoffeeCleaningResponse> responseObserver) {
+        String name = request.getName();
+        String cleanedMode = request.getCleanMode();
 
-   @Override
+        String coffeeMachine = CoffeeMachine.newBuilder()
+                .setName(name)
+                .setStatus("cleaned to " + cleanedMode)
+                .setDateLastCleaned(cleanedDate()).build().toString();
+
+        //response
+        CoffeeCleaningResponse response = CoffeeCleaningResponse.newBuilder()
+                .setCoffeeMachine(coffeeMachine)
+                .build();
+
+        //set a response
+        responseObserver.onNext(response);
+
+        // complete the rpc call
+        responseObserver.onCompleted();
+
+    }
+
+    @Override
    public void coffeeReady(HelloReq request, StreamObserver<HelloResp> responseObserver) {
 
       String order = request.getOrder();
@@ -77,4 +104,10 @@ public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServ
         responseObserver.onCompleted();
     }
 
+    private String cleanedDate(){
+        LocalDateTime currentDate = LocalDateTime.now();
+        DateTimeFormatter dateFormater = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDate = currentDate.format(dateFormater);
+        return formattedDate;
+    }
 }

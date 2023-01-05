@@ -8,6 +8,14 @@ option java_multiple_files = true;
 
 import "google/protobuf/any.proto";
 
+service CoffeeShopService {
+
+  rpc CoffeeReady(HelloReq) returns (HelloResp);
+
+  rpc MakeCoffee(CoffeeInstructionsRequest) returns (CoffeeResults);
+  rpc CleanCoffeeMachine(CoffeeCleaningRequest) returns (CoffeeCleaningResponse);
+}
+
 message HelloReq {
   string ClientName = 1;
   string Order = 2;
@@ -23,14 +31,21 @@ message CoffeeInstructionsRequest {
   repeated string ingredients= 4;
 }
 
-
 message CoffeeResults {
   repeated string outputList = 1;
 }
 
-service CoffeeShopService {
+message CoffeeCleaningRequest {
+  string name = 1;
+  string cleanMode = 2;
+}
 
-  rpc CoffeeReady(HelloReq) returns (HelloResp);
+message CoffeeCleaningResponse {
+  string CoffeeMachine = 1;
+}
 
-  rpc MakeCoffee(CoffeeInstructionsRequest) returns (CoffeeResults);
+message CoffeeMachine {
+  string name = 1;
+  string status = 2;
+  string dateLastCleaned = 3;
 }
