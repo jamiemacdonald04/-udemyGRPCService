@@ -16,14 +16,14 @@ public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServ
         String name = request.getName();
         String cleanedMode = request.getCleanMode();
 
-        String coffeeMachine = CoffeeMachine.newBuilder()
+       CoffeeMachine  coffeeMachine = CoffeeMachine.newBuilder()
                 .setName(name)
                 .setStatus("cleaned to " + cleanedMode)
-                .setDateLastCleaned(cleanedDate()).build().toString();
+                .setDateLastCleaned(cleanedDate()).build();
 
         //response
         CoffeeCleaningResponse response = CoffeeCleaningResponse.newBuilder()
-                .setCoffeeMachine(coffeeMachine)
+                .setResult(coffeeMachine)
                 .build();
 
         //set a response
@@ -35,28 +35,34 @@ public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServ
     }
 
     @Override
-   public void coffeeReady(HelloReq request, StreamObserver<HelloResp> responseObserver) {
+   public void coffeeReady(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
 
       String order = request.getOrder();
       String clientName = request.getClientName();
+      String result= "";
 
-      //get the parameters and do with as you wish
-      String result = "Welcome back " + clientName + "! congratulations, your order of " + order + " is ready!";
+      HelloResponse.Builder response = HelloResponse.newBuilder();
 
-      //Hello response
-      HelloResp response = HelloResp.newBuilder()
-              .setReady(result)
-              .build();
+      if(clientName.isEmpty()){
+          result = "No name provided ";
+          response.setReady(result);
+
+      }else {
+
+          //get the parameters and do with as you wish
+          result = "Welcome back " + clientName + "! congratulations, your order of " + order + " is ready!";
+          response.setReady(result);
+      }
 
       //set a response
-      responseObserver.onNext(response);
+      responseObserver.onNext(response .build());
 
       // complete the rpc call
       responseObserver.onCompleted();
    }
 
     @Override
-    public void makeCoffee(CoffeeInstructionsRequest request, StreamObserver<CoffeeResults> responseObserver) {
+    public void makeCoffee(CoffeeInstructionsRequest request, StreamObserver<CoffeeResponse> responseObserver) {
 
         List<String> order = request.getIngredientsList();
         Any milk = request.getMilk();
@@ -90,7 +96,7 @@ public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServ
             }
         }
 
-        CoffeeResults response = CoffeeResults.newBuilder()
+        CoffeeResponse response = CoffeeResponse.newBuilder()
                 .addAllOutputList(result)
                 .build();
 
