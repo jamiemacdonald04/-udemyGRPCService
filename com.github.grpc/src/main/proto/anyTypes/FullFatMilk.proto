@@ -1,11 +1,11 @@
 syntax = "proto3";
 
 package test.logic.CoffeeMaker;
-
+option java_multiple_files = true;
 option java_package = "test.logic.CoffeeMaker";
 
 message FullFatMilk {
   uint32 mls = 1;
-  string Name = 2;
-  string Farm=3;
+  string name = 2;
+  string farm=3;
 }

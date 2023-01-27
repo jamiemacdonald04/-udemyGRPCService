@@ -1,4 +1,5 @@
 import grpc from 'k6/net/grpc';
+import {check} from 'k6';
 import { CheckResults } from '../results.js'
 
 const client = new grpc.Client();
@@ -10,9 +11,7 @@ export default () => {
     var authorization=`${__ENV.token}`
     var url=`${__ENV.url}`
     var port=`${__ENV.port}`
-    var serviceName = "CleanCoffeeMachine"
-    var coffeeMachineName = "Coffee Machi'!@£$%^&*()_-+=ne Two";
-    var cleaningMode = "Deep '!@£$%^&*()_-+=Clean";
+    var serviceName = "CoffeeReady";
 
     const meta = {
         metadata: {
@@ -26,9 +25,7 @@ export default () => {
 
     });
 
-
-    const params = {name: coffeeMachineName, cleanMode : cleaningMode};
-
+    const params = {ClientName: "", Order : "White Coffee"};
 
     const response = client.invoke('test.logic.CoffeeMaker.CoffeeShopService/' + serviceName, params);
 

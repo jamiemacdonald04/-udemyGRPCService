@@ -1,11 +1,11 @@
 package brewers.delight;
 import com.google.protobuf.Any;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
 import test.logic.CoffeeMaker.*;
 import io.grpc.stub.StreamObserver;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +46,8 @@ public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServ
       if(clientName.isEmpty()){
           result = "No name provided ";
           response.setReady(result);
+          responseObserver.onError(io.grpc.Status.INVALID_ARGUMENT.withDescription("no name provided.").asRuntimeException());
+          responseObserver.onCompleted();
 
       }else {
 
@@ -55,7 +57,7 @@ public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServ
       }
 
       //set a response
-      responseObserver.onNext(response .build());
+      responseObserver.onNext(response.build());
 
       // complete the rpc call
       responseObserver.onCompleted();
@@ -70,29 +72,30 @@ public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServ
 
         //get the parameters and do with as you wish
         List<String> result = new ArrayList<>();
-        result.add(sugarLumps + "sugar lumps");
 
+        result.add(sugarLumps + "sugar lumps");
         result.addAll(order);
 
-        AlmondMilkOuterClass.AlmondMilk almondMilk;
-        if (milk.is(AlmondMilkOuterClass.AlmondMilk.class)) {
-            try {
-                almondMilk = milk.unpack(AlmondMilkOuterClass.AlmondMilk.class);
+        AlmondMilk almondMilk;
+        if (milk.is(AlmondMilk.class)) {
+            try
+            {
+                almondMilk = milk.unpack(AlmondMilk.class);
                 result.add("Your " + almondMilk.getName() + "milk was processed at " + almondMilk.getProcessingPlant() + " and a standard portion is " + almondMilk.getMls() + " mls");
             }
             catch(Exception e) {
                 System.out.println("an exception was thrown adding almond milk");
             }
-        }
+       }
 
-        FullFatMilkOuterClass.FullFatMilk fullFatMilk;
-        if (milk.is(FullFatMilkOuterClass.FullFatMilk.class)) {
+        FullFatMilk fullFatMilk;
+        if (milk.is(FullFatMilk.class)) {
             try {
-                fullFatMilk = milk.unpack(FullFatMilkOuterClass.FullFatMilk.class);
+                fullFatMilk = milk.unpack(FullFatMilk.class);
                 result.add("Your " + fullFatMilk.getName() + "milk was farmed at " + fullFatMilk.getFarm() + " and a standard portion is " + fullFatMilk.getMls() + " mls");
             }
             catch(Exception e) {
-                System.out.println("an exception was thrown adding almond milk");
+                System.out.println("an exception was thrown adding full fat milk");
             }
         }
 
@@ -112,4 +115,16 @@ public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServ
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return currentDate.format(dateFormatter);
     }
+
+    static Object convert(Any any, Class<?> type) throws InvalidProtocolBufferException {
+        if (Message.class.isAssignableFrom(type)) {
+            Class<? extends Message> messageType = type.asSubclass(Message.class);
+            if (any.is(messageType)) {
+                return any.unpack(messageType);
+            }
+        }
+        // not a protobuf type, try a Java type
+        return null;
+    }
+
 }

@@ -9,7 +9,8 @@ RUN apt-get update
 RUN apt-get -y install k6
 RUN apt-get -y install vim
 
-COPY /K6 /var/K6
+COPY /K6/SmokeTestFramework /var/K6/SmokeTestFramework
 COPY /proto /var/proto
 
-
+COPY /K6/package.json /var/K6/package.json
+COPY /K6/results.js /var/K6/results.js

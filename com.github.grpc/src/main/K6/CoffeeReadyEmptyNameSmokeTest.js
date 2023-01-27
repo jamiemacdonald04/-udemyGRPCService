@@ -18,14 +18,13 @@ export default () => {
 
     const response = client.invoke('test.logic.CoffeeMaker.CoffeeShopService/CoffeeReady', params);
 
-
     check(response, {
 
         'is ok' : (r) => r.status === grpc.StatusOK,
 
     });
 
-    console.log(JSON.stringify(response.message));
+    console.log(response);
 
     client.close();
 

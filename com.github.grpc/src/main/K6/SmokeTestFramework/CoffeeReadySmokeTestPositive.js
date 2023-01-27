@@ -1,5 +1,5 @@
 import grpc from 'k6/net/grpc';
-import {check} from 'k6';
+import { CheckResults } from '../results.js'
 
 const client = new grpc.Client();
 
@@ -7,25 +7,32 @@ client.load(['../../proto/theBusyBean'], 'CoffeeMaker.proto');
 
 export default () => {
 
+    var authorization=`${__ENV.token}`
+    var url=`${__ENV.url}`
+    var port=`${__ENV.port}`
+    var serviceName = "CoffeeReady"
+    var name = "Jamie";
+    var order = "White Coffee";
 
-    client.connect('localhost:50051', {
+    const meta = {
+        metadata: {
+         "Authorization" : authorization
+        }
+    }
+
+    client.connect(url + ':' + port, {
 
         plaintext: true,
 
     });
-    var name = "Jamie";
-    var order = "White Coffee";
 
     const params = {ClientName: name, Order : order};
 
 
-    const response = client.invoke('test.logic.CoffeeMaker.CoffeeShopService/CoffeeReady', params);
+    const response = client.invoke('test.logic.CoffeeMaker.CoffeeShopService/' + serviceName, params);
 
 
-    check(response, {
-        'status is ok' : (result) => result.status === grpc.StatusOK,
-    });
-
+   CheckResults(response, serviceName)
 
     client.close();
 

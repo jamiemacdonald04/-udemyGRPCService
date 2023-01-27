@@ -30,3 +30,8 @@ com.github.grpc/.gradle
 hs_err_pid*
 replay_pid*
 .idea
+
+
+.envrc
+/com.github.grpc/src/main/k6/SmokeTestFramework/.env
+
