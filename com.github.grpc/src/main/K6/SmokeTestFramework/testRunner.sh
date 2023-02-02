@@ -36,14 +36,11 @@ k6 run --no-summary --quiet=true  --env token="Basic ${basicAuthBase64}" ${testL
 k6 run --no-summary --quiet=true  --env token="Bearer ${tokenAuth}" ${testLocation}/CleanCoffeeMachineSmokeTestSpecialChars.js --console-output=${resultsFile}  || runCleanUp $1 74
 k6 run --no-summary --quiet=true  --env token="Basic ${basicAuthBase64}" ${testLocation}/CoffeeReadyEmptyNameSmokeTest.js --console-output=${resultsFile}  || runCleanUp $1 74
 
-#almondMilk=`cd ${testLocation} && cat ../../TestData/milk.json`
-#k6 run --no-summary --quiet=true --env dataAnyInput="${almondMilk}" --env token="Basic ${basicAuthBase64}" ${testLocation}/MakeCoffeeSmokeTestPositive.js --console-output=${resultsFile} || runCleanUp $1 74
-
-#fullFatMilk=`cd ${testLocation} && cat ../../TestData/FullfatMilk.json`
-
-
 milks=`cd ${testLocation} && cat ../../TestData/milk.json`
 echo -n ${milks} | jq -c '.milks[]' | while read milkIn; do
  k6 run --no-summary --quiet=true --env dataAnyInput="${milkIn}" --env token="Basic ${basicAuthBase64}" ${testLocation}/MakeCoffeeSmokeTestPositive.js --console-output=${resultsFile} || runCleanUp $1 74
 done
+
+k6 run --no-summary --quiet=true --env token="Bearer ${token}" com.github.grpc/src/main/K6/SmokeTestFramework/multipleStagedCallsMachineAudit.js --console-output=${resultsFile}  || runCleanUp $1 74
+
 runCleanUp $1 0

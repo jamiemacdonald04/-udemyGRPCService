@@ -35,6 +35,20 @@ public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServ
     }
 
     @Override
+    public void machineAudit(MachineAuditRequest request, StreamObserver<MachineAuditResponse> responseObserver) {
+        //response
+        MachineAuditResponse response = MachineAuditResponse.newBuilder()
+                .setResult("The Audit has been recorded")
+                .build();
+
+        //set a response
+        responseObserver.onNext(response);
+
+        // complete the rpc call
+        responseObserver.onCompleted();
+    }
+
+    @Override
    public void coffeeReady(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
 
       String order = request.getOrder();
@@ -126,5 +140,4 @@ public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServ
         // not a protobuf type, try a Java type
         return null;
     }
-
 }

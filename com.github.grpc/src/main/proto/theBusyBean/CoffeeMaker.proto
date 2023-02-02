@@ -9,10 +9,10 @@ option java_multiple_files = true;
 import "google/protobuf/any.proto";
 
 service CoffeeShopService {
-
   rpc CoffeeReady(HelloRequest) returns (HelloResponse);
   rpc MakeCoffee(CoffeeInstructionsRequest) returns (CoffeeResponse);
   rpc CleanCoffeeMachine(CoffeeCleaningRequest) returns (CoffeeCleaningResponse);
+  rpc MachineAudit(MachineAuditRequest) returns (MachineAuditResponse);
 }
 
 message HelloRequest {
@@ -47,4 +47,14 @@ message CoffeeMachine {
   string name = 1;
   string status = 2;
   string dateLastCleaned = 3;
+}
+
+message MachineAuditRequest {
+  string name = 1;
+  string status = 2;
+  string dateLastCleaned = 3;
+}
+
+message MachineAuditResponse {
+  string result = 1;
 }

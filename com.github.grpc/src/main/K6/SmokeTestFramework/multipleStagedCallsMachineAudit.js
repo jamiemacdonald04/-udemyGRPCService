@@ -1,6 +1,6 @@
 import { describe as step, it } from "https://cdn.jsdelivr.net/npm/kahwah";
 import grpc from 'k6/net/grpc';
-import {CheckResults} from './results.js';
+import {CheckResults} from '../results.js';
 
 export{options, default} from "https://cdn.jsdelivr.net/npm/kahwah";
 
@@ -10,7 +10,7 @@ var port=`${__ENV.port}`;
 
 const client = new grpc.Client();
 
-client.load(['../proto/theBusyBean'], 'CoffeeMaker.proto');
+client.load(['../../proto/theBusyBean'], 'CoffeeMaker.proto');
 
 export function setup(){
     const meta = {
@@ -34,7 +34,7 @@ step("clean coffee machine", (ctx) => {
 
     const params = {name: coffeeMachineName, cleanMode : cleaningMode};
     const response = client.invoke('test.logic.CoffeeMaker.CoffeeShopService/' + serviceName, params, meta);
-    CheckResults(response, serviceName)
+    CheckResults(response, serviceName + "/Multiple Staged Calls Machine Audit (step 1)")
     ctx.session.params = response.message.result;
     client.close();
 });
@@ -48,6 +48,6 @@ step("Machine Audit", (ctx) => {
     });
 
     const response = client.invoke('test.logic.CoffeeMaker.CoffeeShopService/' + serviceName, params, meta);
-    CheckResults(response, serviceName)
+    CheckResults(response, serviceName + "/Multiple Staged Calls Machine Audit (step 2)")
     client.close();
 });

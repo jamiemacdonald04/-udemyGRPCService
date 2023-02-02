@@ -13,7 +13,6 @@ export const options = {
         {duration: "3m", target: 3000}, // spike of users simulating denial of service attack
         {duration: "1m", target: 100},   // resume normal service
         {duration: "5m", target: 100},  // does our service recover as normal traffic here
-
     ],
 }
 
@@ -41,8 +40,6 @@ export default () => {
         'is ok' : (r) => r.status === grpc.StatusOK,
 
     });
-
-
     client.close();
 
 }

@@ -30,6 +30,10 @@ com.github.grpc/.gradle
 hs_err_pid*
 replay_pid*
 .idea
+Deployment/Secretstemp
+Deployment/k6
+Deployment/TestData
+Deployment/proto
 
 
 .envrc

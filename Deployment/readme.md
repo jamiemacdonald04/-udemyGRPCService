@@ -22,11 +22,11 @@ docker build -t k8sk6 .
 ### Create secrets command
 add Secretstemp to git ignore
 ```
-kubectl create secret generic secret-basic-credentials --from-literal=password=admin  --from-literal=username=admin --dry-run=client -o yaml > ./Deployment/Secretstemp/test-k6-basic.yaml
-kubectl create secret generic secret-bearer-credentials --from-literal=token=asdfasfdsafasdfasdfsdgwertgdsafgadfgads --dry-run=client -o yaml > ./Deployment/Secretstemp/test-k6-Token.yaml
+kubectl create secret generic secret-basic-credentials --from-literal=password=admin  --from-literal=username=admin --dry-run=client -o yaml > ./Secretstemp/test-k6-basic.yaml
+kubectl create secret generic secret-bearer-credentials --from-literal=token=asdfasfdsafasdfasdfsdgwertgdsafgadfgads --dry-run=client -o yaml > ./Secretstemp/test-k6-Token.yaml
 
-kubeseal --controller-namespace=kube-system --format=yaml < ./Deployment/Secretstemp/test-k6-basic.yaml > ./Deployment/SealedSecrets/sealedsecret-basic-credentials.yaml
-kubeseal --controller-namespace=kube-system --format=yaml < ./Deployment/Secretstemp/test-k6-token.yaml > ./Deployment/SealedSecrets/sealedsecret-bearer-credentials.yaml
+kubeseal --controller-namespace=kube-system --format=yaml < ./Secretstemp/test-k6-basic.yaml > ./SealedSecrets/sealedsecret-basic-credentials.yaml
+kubeseal --controller-namespace=kube-system --format=yaml < ./Secretstemp/test-k6-token.yaml > ./SealedSecrets/sealedsecret-bearer-credentials.yaml
 
 ```
 
@@ -42,7 +42,8 @@ kubectl apply -f ./CronJob
 
 ### open a shell
 ```
-kubectl exec --stdin --tty run-k6-job-wc7s6 -- /bin/bash
+kubectl get pods 
+kubectl exec --stdin --tty [pod-name] -- /bin/bash
 ```
 
 
