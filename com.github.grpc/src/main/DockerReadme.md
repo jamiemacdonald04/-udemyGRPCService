@@ -33,3 +33,5 @@ agent any
     }
 }
  ```
+
+docker container run -d --add-host host.docker.internal:host-gateway --name jenkinstest -p 8080:8080 jenkinsk6 

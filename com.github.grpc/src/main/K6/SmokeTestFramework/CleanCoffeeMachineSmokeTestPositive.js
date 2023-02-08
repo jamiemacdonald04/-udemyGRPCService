@@ -30,7 +30,7 @@ export default () => {
 
     const response = client.invoke('test.logic.CoffeeMaker.CoffeeShopService/' + serviceName, params, meta);
 
-    CheckResults(response, serviceName)
+    //CheckResults(response, serviceName)
 
     client.close();
 

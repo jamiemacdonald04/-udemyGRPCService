@@ -49,6 +49,20 @@ public class CoffeeShopServiceImpl extends  CoffeeShopServiceGrpc.CoffeeShopServ
     }
 
     @Override
+    public void orderOfMenu(MenuNumberOrNameRequest request, StreamObserver<MenuNumberOrNameResponse> responseObserver) {
+        //response
+        MenuNumberOrNameResponse response = MenuNumberOrNameResponse.newBuilder()
+                .setResult("The Coffee Chosen is a " + request.getMenuItem() + request.getMenuItemID())
+                .build();
+
+        //set a response
+        responseObserver.onNext(response);
+
+        // complete the rpc call
+        responseObserver.onCompleted();
+    }
+
+    @Override
    public void coffeeReady(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
 
       String order = request.getOrder();

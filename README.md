@@ -39,3 +39,9 @@ k6 run --no-summary --quiet=true --env token="Bearer ${token}" com.github.grpc/s
 
 ### reuse and robust tests
 k6 run com.github.grpc/src/main/K6/CoffeeReadySpikeReUseAndRobustTest.js
+k6 run com.github.grpc/src/main/K6/CoffeeReadySpikeReUseConnectionPerUserAndRobustTest.js
+k6 run com.github.grpc/src/main/K6/CoffeeReadySpikeReUseConnectionPerUserAndRandomInDataTest.js
+
+
+### One of
+k6 run com.github.grpc/src/main/K6/OrderOfMenuSmokeTest.js
