@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: run-k6-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: run-k6
+          env:
+            - name: token
+              valueFrom:
+                secretKeyRef:
+                  name: secret-bearer-credentials
+                  key: token
+            - name: username
+              valueFrom:
+                secretKeyRef:
+                  name: secret-basic-credentials
+                  key: username
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: secret-basic-credentials
+                  key: password
+          envFrom:
+            - configMapRef:
+                name: k6-configuration
+          image: k8sk6:latest
+          imagePullPolicy: Never
+          command: ["./SmokeTestFramework/testRunner.sh"]
+      restartPolicy: Never
+  backoffLimit: 4
