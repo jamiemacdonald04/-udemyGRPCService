@@ -3,7 +3,7 @@
 cd UdemyGRPCService
 
 ### run test
-k6 run /com.github.grpc/src/main/k6/test.js
+k6 run com.github.grpc/src/main/k6/test.js
 
 
 ### Coffee Ready Smoke Test
