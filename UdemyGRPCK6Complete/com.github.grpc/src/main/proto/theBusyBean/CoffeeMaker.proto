@@ -7,6 +7,7 @@ option java_package = "test.logic.CoffeeMaker";
 option java_multiple_files = true;
 
 import "google/protobuf/any.proto";
+import "google/protobuf/field_mask.proto";
 
 service CoffeeShopService {
   rpc CoffeeReady(HelloRequest) returns (HelloResponse);
@@ -14,6 +15,7 @@ service CoffeeShopService {
   rpc CleanCoffeeMachine(CoffeeCleaningRequest) returns (CoffeeCleaningResponse);
   rpc MachineAudit(MachineAuditRequest) returns (MachineAuditResponse);
   rpc OrderOfMenu(MenuNumberOrNameRequest) returns (MenuNumberOrNameResponse);
+  rpc StockAudit(StockAuditRequest) returns (StockAuditResponse);
 }
 
 message HelloRequest {
@@ -68,5 +70,15 @@ message MachineAuditRequest {
 }
 
 message MachineAuditResponse {
+  string result = 1;
+}
+
+message StockAuditRequest {
+  string name = 1;
+  uint32 counter = 2;
+  google.protobuf.FieldMask update_mask = 3;
+}
+
+message StockAuditResponse {
   string result = 1;
 }

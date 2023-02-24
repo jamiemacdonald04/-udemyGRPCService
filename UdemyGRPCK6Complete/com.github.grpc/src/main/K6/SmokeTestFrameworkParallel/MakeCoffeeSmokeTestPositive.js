@@ -1,5 +1,5 @@
 import grpc from 'k6/net/grpc';
-import { CheckResults } from './results.js'
+import { CheckResultsPassOrFail } from './results.js'
 
 const client = new grpc.Client();
 client.load(['../../proto/theBusyBean','../../proto/anyTypes'], 'CoffeeMaker.proto','AlmondMilk.proto','FullFatMilk.proto');
@@ -19,7 +19,7 @@ export default () => {
         client.connect(url + ':' + port, { plaintext: true });
         var prefix = "name>" + data.milk.name + "| ingredients>" + data.ingredients
         const response = client.invoke('test.logic.CoffeeMaker.CoffeeShopService/' + serviceName, data, meta);
-        CheckResults(response, serviceName, prefix)
+        CheckResultsPassOrFail(response, serviceName, prefix)
         client.close();
     }catch(err){
         console.log("The service/test with a possible syntax/runtime error with service name " + serviceName + " has FAILED!");

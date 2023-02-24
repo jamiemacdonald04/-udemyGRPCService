@@ -10,7 +10,7 @@ client.load(['../proto/theBusyBean'], 'CoffeeMaker.proto');
 
 export default () => {
 
-  client.connect('localhost:50051', {
+  client.connect('localhost:50052', {
     plaintext: true,
   });
 

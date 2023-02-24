@@ -5,5 +5,5 @@ metadata:
 data:
   url: "host.minikube.internal"
   port: "50051"
-  testLocation: "./SmokeTestFramework"
+  SmokeTestFramework: "./SmokeTestFramework"
 

@@ -23,7 +23,7 @@ export default () => {
     const params = {ClientName: "Jamie", Order : "White Coffee"};
 
     try{
-        client.connect('localhost:50051', {
+        client.connect('localhost:50052', {
 
             plaintext: true,
 

@@ -8,8 +8,9 @@ client.load(['../proto/theBusyBean'], 'CoffeeMaker.proto');
 
 export default () => {
 
-
-    client.connect('localhost:50051', {
+    var url=`${__ENV.url}`;
+    var port=`${__ENV.port}`;
+    client.connect(url + ':' port, {
 
         plaintext: true,
         reflect: true

@@ -23,7 +23,7 @@ export function CheckResultsFail(response, serviceName, prefixData){
     }
 
     check(response, {
-        'status is ok' : (result) => result.status === grpc.StatusOK,
+        'status is ok' : (result) => result.status != grpc.StatusOK,
     });
 
     if(response.status === grpc.StatusOK){
