@@ -7,6 +7,8 @@ const client = new grpc.Client();
 const params = {ClientName: "Jamie", Order : "White Coffee"};
 client.load(['../proto/theBusyBean'], 'CoffeeMaker.proto');
 var retryCounter = 6;
+var url=`${__ENV.url}`
+var port=`${__ENV.port}`
 
 export const options = {
     stages: [
@@ -29,6 +31,7 @@ export default () => {
 }
 
 function getConnection(retry){
+
     try{
         if (retryCounter == 0) {
             exec.test.abort("too many connection attempts made.");
@@ -37,7 +40,7 @@ function getConnection(retry){
         if (__ITER != 0 && !retry) {
           return;
         }
-        client.connect('localhost:50051', { plaintext: true });
+        client.connect(url + ':' + port, {plaintext: true});
 
     }catch(err){
        handleError(err);

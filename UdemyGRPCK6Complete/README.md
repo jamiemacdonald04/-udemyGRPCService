@@ -49,7 +49,7 @@ chmod +x ${SmokeTestFrameworkParallel}/testRunner.sh
 ./${SmokeTestFrameworkParallel}/testRunner.sh false
 
 
-###framework Parallel
+###framework Parallel Quite Fast
 chmod +x ${SmokeTestFrameworkParallelQuitFast}/testRunner.sh
 ./${SmokeTestFrameworkParallelQuitFast}/testRunner.sh false
 

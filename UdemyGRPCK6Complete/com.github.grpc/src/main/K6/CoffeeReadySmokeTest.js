@@ -7,33 +7,20 @@ const client = new grpc.Client();
 client.load(['../proto/theBusyBean'], 'CoffeeMaker.proto');
 
 export default () => {
-
-
-    client.connect('localhost:50051', {
-
-        plaintext: true,
-
-    });
+    var url=`${__ENV.url}`
+    var port=`${__ENV.port}`
+    client.connect(url + ':' + port, {plaintext: true});
     var name = "Jamie";
     var order = "White Coffee";
-
     const params = {ClientName: name, Order : order};
-
-
-
     describe('make assertions on our coffee order gRPC Service', (t) =>{
-
         const response = client.invoke('test.logic.CoffeeMaker.CoffeeShopService/CoffeeReady', params);
-
         console.log(response);
-
         t.expect(Number(response.status))
         .as("status is ok")
         .toEqual(Number(grpc.StatusOK))
-
         .and(response.message.ready.length)
         .toBeGreaterThanOrEqual(56);
-
     })
 /*
     check(response, {
@@ -45,7 +32,5 @@ export default () => {
         'trailers are empty ' : (result) => Object.keys(result.trailers).length === 0,
     });
     */
-
     client.close();
-
 }

@@ -28,10 +28,7 @@ step("clean coffee machine", (ctx) => {
     var coffeeMachineName = "Coffee Machine Two";
     var cleaningMode = "Deep Clean";
 
-    client.connect(url + ':' + port, {
-        plaintext: true,
-    });
-
+    client.connect(url + ':' + port, {plaintext: true});
     const params = {name: coffeeMachineName, cleanMode : cleaningMode};
     const response = client.invoke('test.logic.CoffeeMaker.CoffeeShopService/' + serviceName, params, meta);
     CheckResults(response, serviceName)

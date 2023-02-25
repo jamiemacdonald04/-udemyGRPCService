@@ -8,6 +8,8 @@ const params = {ClientName: "Jamie", Order : "White Coffee"};
 client.load(['../proto/theBusyBean'], 'CoffeeMaker.proto');
 var retryCounter = 6;
 var uniqueConnections=[];
+const url=`${__ENV.url}`
+const port=`${__ENV.port}`
 
 export const options = {
     stages: [
@@ -41,7 +43,7 @@ function createNewConnection() {
         if (retryCounter == 0) {
             exec.test.abort("too many connection attempts made.");
         }
-        client.connect('localhost:50051', {plaintext: true});
+        client.connect(url + ':' + port, {plaintext: true});
         counterMade.add(1)
         return client;
     }catch(err){

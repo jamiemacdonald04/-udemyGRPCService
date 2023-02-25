@@ -5,7 +5,8 @@ import{Counter} from 'k6/metrics';
 const client = new grpc.Client();
 
 client.load(['../proto/theBusyBean'], 'CoffeeMaker.proto');
-
+const url=`${__ENV.url}`
+const port=`${__ENV.port}`
 export const options = {
     stages: [
         {duration: "1m", target: 100}, // ramping up to the normal usage of our webservice
@@ -19,27 +20,16 @@ export const options = {
 const counterErrors = new Counter('Connection_Errors')
 
 export default () => {
-
     const params = {ClientName: "Jamie", Order : "White Coffee"};
-
     try{
-        client.connect('localhost:50052', {
-
-            plaintext: true,
-
-        });
+        client.connect(url + ':' + port, {plaintext: true});
     }catch(err){
         console.error(err)
         counterErrors.add(1);
     }
-
     const response = client.invoke('test.logic.CoffeeMaker.CoffeeShopService/CoffeeReady', params);
-
     check(response, {
-
         'is ok' : (r) => r.status === grpc.StatusOK,
-
     });
     client.close();
-
 }

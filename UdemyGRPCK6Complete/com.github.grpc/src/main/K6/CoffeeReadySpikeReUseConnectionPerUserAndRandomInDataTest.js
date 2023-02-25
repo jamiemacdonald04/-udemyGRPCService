@@ -11,6 +11,8 @@ client.load(['../proto/theBusyBean'], 'CoffeeMaker.proto');
 
 var retryCounter = 6;
 var uniqueConnection;
+const url=`${__ENV.url}`
+const port=`${__ENV.port}`
 const serviceName = "CoffeeReady"
 const data = new SharedArray('users', function () {
   const file = JSON.parse(open('../TestData/CoffeeReadyData.json'));
@@ -54,7 +56,7 @@ function createNewClient(){
         if (retryCounter == 0) {
             exec.test.abort("too many connection attempts made.");
         }
-        client.connect('localhost:50051', { plaintext: true });
+        client.connect(url + ':' + port, {plaintext: true});
         connectionsMade.add(1);
         return client;
     }catch(err){

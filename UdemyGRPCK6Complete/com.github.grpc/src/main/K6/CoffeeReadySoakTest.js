@@ -14,25 +14,13 @@ export const options = {
 }
 
 export default () => {
-
-
-    client.connect('localhost:50051', {
-
-        plaintext: true,
-
-    });
-
+    var url=`${__ENV.url}`
+    var port=`${__ENV.port}`
+    client.connect(url + ':' + port, {plaintext: true});
     const params = {ClientName: "Jamie", Order : "White Coffee"};
-
     const response = client.invoke('test.logic.CoffeeMaker.CoffeeShopService/CoffeeReady', params);
-
-
     check(response, {
-
         'is ok' : (r) => r.status === grpc.StatusOK,
-
     });
-
     client.close();
-
 }
