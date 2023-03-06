@@ -35,7 +35,7 @@ Deployment/k6
 Deployment/TestData
 Deployment/proto
 
-
-.envrc
-/com.github.grpc/src/main/k6/SmokeTestFramework/.env
+# in the real world these files whould not be checked in for the purposes of this they are
+#.envrc
+#/com.github.grpc/src/main/k6/SmokeTestFramework/.env
 
