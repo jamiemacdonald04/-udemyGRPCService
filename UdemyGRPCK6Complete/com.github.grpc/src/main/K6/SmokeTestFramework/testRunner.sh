@@ -29,20 +29,17 @@ runCleanUp() {
   exit ${2}
 }
 
-k6 run --no-summary --quiet=true  --env token="Basic ${basicAuthBase64}" ${SmokeTestFramework}/CoffeeReadySmokeTestPositive.js --console-output=${resultsFile}  || runCleanUp $1 74
-k6 run --no-summary --quiet=true  --env token="Bearer ${basicAuthBase64}" ${SmokeTestFramework}/CoffeeReadySmokeTestSpecialChars.js --console-output=${resultsFile}   || runCleanUp  $1 74
-#k6 run --no-summary --quiet=true  --env token="Basic ${basicAuthBase64}" ${SmokeTestFramework}/FAILER.js --console-output=${resultsFile}  || runCleanUp $1 74
 k6 run --no-summary --quiet=true  --env token="Basic ${basicAuthBase64}" ${SmokeTestFramework}/CleanCoffeeMachineSmokeTestPositive.js --console-output=${resultsFile}   || runCleanUp $1 74
 k6 run --no-summary --quiet=true  --env token="Bearer ${basicAuthBase64}" ${SmokeTestFramework}/CleanCoffeeMachineSmokeTestSpecialChars.js --console-output=${resultsFile}    || runCleanUp $1 74
 k6 run --no-summary --quiet=true  --env token="Basic ${basicAuthBase64}" ${SmokeTestFramework}/CoffeeReadyEmptyNameSmokeTest.js --console-output=${resultsFile}    || runCleanUp $1 74
+k6 run --no-summary --quiet=true  --env token="Basic ${basicAuthBase64}" ${SmokeTestFramework}/CoffeeReadySmokeTestPositive.js --console-output=${resultsFile}  || runCleanUp $1 74
+k6 run --no-summary --quiet=true  --env token="Bearer ${basicAuthBase64}" ${SmokeTestFramework}/CoffeeReadySmokeTestSpecialChars.js --console-output=${resultsFile}   || runCleanUp  $1 74
 
-milks=`cd ${SmokeTestFramework} && cat ../../TestData/milk.json`
+milks=`cd ${SmokeTestFrameworkParallel} && cat ../../TestData/milk.json`
 echo -n ${milks} | jq -c '.milks[]' | while read milkIn; do
-  k6 run --no-summary --quiet=true --env dataAnyInput="${milkIn}" --env token="Basic ${basicAuthBase64}" ${SmokeTestFramework}/MakeCoffeeSmokeTestPositive.js --console-output=${resultsFile} || runCleanUp $1 74
+  k6 run --no-summary --quiet=true  --env token="Basic ${basicAuthBase64}" "${SmokeTestFrameworkParallel}/MakeCoffeeSmokeTestPositive.js" --env dataAnyInput="${milkIn}" --console-output=${resultsFile}   || runCleanUp $1 74
 done
-
-k6 run --no-summary --quiet=true --env token="Bearer ${token}" com.github.grpc/src/main/K6/SmokeTestFramework/multipleStagedCallsMachineAudit.js --console-output=${resultsFile}  || runCleanUp $1 74
-
+k6 run --no-summary --quiet=true  --env token="Basic ${basicAuthBase64}" "${SmokeTestFrameworkParallel}/multipleStagedCallsMachineAudit.js" --console-output=${resultsFile}   || runCleanUp $1 74
 runCleanUp $1 0
 
 

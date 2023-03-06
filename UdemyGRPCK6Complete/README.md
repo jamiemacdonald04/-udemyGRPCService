@@ -16,17 +16,16 @@ k6 run ${SmokeTestFramework}/CleanCoffeeMachineSmokeTestSpecialChars.js
 k6 run ${SmokeTestFramework}/CoffeeReadyEmptyNameSmokeTest.js
 k6 run ${SmokeTestFramework}/multipleStagedCallsMachineAudit.js
 ### Coffee Ready Soak Test
-k6 run /com.github.grpc/src/main/k6/CoffeeReadySoakTest.js
+k6 run com.github.grpc/src/main/k6/CoffeeReadySoakTest.js
 
 ### Coffee Ready Load Test
-k6 run /com.github.grpc/src/main/k6/CoffeeReadyLoadTest.js
+k6 run com.github.grpc/src/main/k6/CoffeeReadyLoadTest.js
 
 ### Coffee Ready Smoke Test empty name 
 k6 run ${SmokeTestFramework}/CoffeeReadyEmptyNameSmokeTest.js
 
-
 ### Coffee Ready spike Test
-k6 run /com.github.grpc/src/main/k6/CoffeeReadySpikeTest.js
+k6 run com.github.grpc/src/main/k6/CoffeeReadySpikeTest.js
 
 ### multiple staged calls 
 k6 run --env token="Bearer ${token}" com.github.grpc/src/main/K6/multipleStagedCallsMachineAudit.js
@@ -52,5 +51,3 @@ chmod +x ${SmokeTestFrameworkParallel}/testRunner.sh
 ###framework Parallel Quite Fast
 chmod +x ${SmokeTestFrameworkParallelQuitFast}/testRunner.sh
 ./${SmokeTestFrameworkParallelQuitFast}/testRunner.sh false
-
-

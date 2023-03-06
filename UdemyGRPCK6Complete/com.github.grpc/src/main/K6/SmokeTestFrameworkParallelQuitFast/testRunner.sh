@@ -69,7 +69,7 @@ testRunner(){
   k6Run "${SmokeTestFrameworkParallelQuitFast}/CleanCoffeeMachineSmokeTestPositive.js"
   k6Run "${SmokeTestFrameworkParallelQuitFast}/CleanCoffeeMachineSmokeTestSpecialChars.js"
   k6Run "${SmokeTestFrameworkParallelQuitFast}/CoffeeReadyEmptyNameSmokeTest.js"
-  #k6Run "${SmokeTestFrameworkParallelQuitFast}/FAILER.js"
+  k6Run "${SmokeTestFrameworkParallelQuitFast}/FAILER.js"
   k6Run "${SmokeTestFrameworkParallelQuitFast}/CoffeeReadySmokeTestPositive.js"
   k6Run "${SmokeTestFrameworkParallelQuitFast}/CoffeeReadySmokeTestSpecialChars.js"
   k6Run "${SmokeTestFrameworkParallelQuitFast}/CleanCoffeeMachineSmokeTestPositive.js"
