@@ -7,7 +7,7 @@ import java.io.IOException;
 public class CoffeeShopServer {
     public static void main(String[] args) throws IOException, InterruptedException
     {
-        Server server = ServerBuilder.forPort(50052)
+        Server server = ServerBuilder.forPort(50055)
                 .addService(new CoffeeShopServiceImpl())
                 .build();
         System.out.println("server starting....");
